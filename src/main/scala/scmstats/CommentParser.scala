@@ -65,7 +65,18 @@ class CommentParser {
     "js" -> "//"
   )
 
-  def getComments(code: String) = {
-
+  private def hasCommentEnd(ext: String, code: String) = {
+    commentEnd.get(ext).exists(code.trim.endsWith)
   }
+  
+  private def hasCommentBeginning(ext: String, code: String) = {
+    commentBeginnings.get(ext).exists(code.trim.startsWith)
+  }
+  
+  def isComment(ext: String, code: String) = {
+    if(commentBeginnings.get(ext).exists(code.trim.startsWith)) true
+    else if(commentEnd.get(ext).exists(code.trim.endsWith)) true
+    else if(comment.get(ext).exists(code.trim.startsWith)) true
+    else false
+  }  
 }
